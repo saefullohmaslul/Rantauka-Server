@@ -14,6 +14,10 @@ app.use(bodyParser.json());
 
 app.group("/api/v1/", router => {
   router.get("/users", UserControllers.index);
+  router.get("/user/:id", UserControllers.show);
+  router.post("/user", UserControllers.store);
+  router.patch("/user/:id", UserControllers.update);
+  router.delete("/user/:id", UserControllers.delete);
 });
 
 app.listen(PORT, err => {
