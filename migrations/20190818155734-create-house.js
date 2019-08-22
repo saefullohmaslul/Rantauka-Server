@@ -21,19 +21,19 @@ module.exports = {
         type: Sequelize.STRING
       },
       latitude: {
-        type: Sequelize.FLOAT
+        type: Sequelize.STRING
       },
       longitude: {
-        type: Sequelize.FLOAT
+        type: Sequelize.STRING
       },
       house_type: {
         type: Sequelize.STRING
       },
       house_length: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
       },
       house_width: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
       },
       house_description: {
         type: Sequelize.TEXT

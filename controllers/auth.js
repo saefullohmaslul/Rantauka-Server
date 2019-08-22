@@ -3,15 +3,22 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models").user;
 
-exports.signup = async (req, res) => {
-  const { email, password, fullName, telephone } = req.body;
+exports.signup = async (req, res, next) => {
+  const { password, fullName, confirmPassword, email, telephone } = req.body;
+
   try {
+    if (confirmPassword !== password) {
+      const error = new Error("Please fill the same password");
+      error.statusCode = 401;
+      throw error;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await User.create({
       email,
+      telephone,
       password: hashedPassword,
-      full_name: fullName,
-      telephone
+      full_name: fullName
     });
 
     res.send({

@@ -1,20 +1,107 @@
 const House = require("../models").house;
+const User = require("../models").user;
+const Image = require("../models").image;
+const Facilities = require("../models").facilities;
 
-exports.index = async (req, res) => {
+exports.index = async (req, res, next) => {
   try {
-    const houses = await House.findAll();
+    const houses = await House.findAll({
+      include: [
+        {
+          model: Image,
+          attributes: ["uri"]
+        }
+      ]
+    });
+
     if (!houses) {
-      res.send({
-        status: true,
-        message: "houses not found",
-        data: null
-      });
+      const error = new Error("House not found");
+      error.statusCode = 401;
+      throw error;
     }
 
     res.send({
       status: true,
       message: "success fetch houses",
       data: houses
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.store = async (req, res) => {
+  const {
+    house_name,
+    provinsi,
+    kabupaten,
+    kecamatan,
+    latitude,
+    longitude,
+    house_type,
+    house_length,
+    house_width,
+    house_description,
+    house_price,
+    booking,
+    facilities
+  } = req.body;
+
+  try {
+    const images = req.files;
+
+    const house = await House.create({
+      house_name,
+      provinsi,
+      kabupaten,
+      kecamatan,
+      latitude,
+      longitude,
+      house_type,
+      house_length,
+      house_width,
+      house_description,
+      house_price,
+      booking,
+      userId: req.userId
+    });
+
+    const houseId = house.id;
+
+    if (facilities) {
+      let facilitiesJSON = [];
+      facilities.map(val => {
+        facilitiesJSON.push(JSON.parse(val));
+      });
+      const facilitiesTrue = facilitiesJSON.filter(val => {
+        return val.status == true;
+      });
+
+      facilitiesTrue.map(fasilitas => {
+        Facilities.create({
+          name: fasilitas.nama,
+          status: fasilitas.status,
+          houseId
+        });
+      });
+    }
+
+    if (images) {
+      images.map(image => {
+        Image.create({
+          uri: image.path,
+          houseId
+        });
+      });
+    }
+
+    res.send({
+      status: true,
+      message: "success store house",
+      data: house
     });
   } catch (err) {
     console.log(err);
@@ -24,7 +111,23 @@ exports.index = async (req, res) => {
 exports.show = async (req, res) => {
   const id = req.params.id;
   try {
-    const house = await House.findOne({ where: { id } });
+    const house = await House.findOne({
+      where: { id },
+      include: [
+        {
+          model: User,
+          attributes: ["email", "id", "full_name", "telephone"]
+        },
+        {
+          model: Image,
+          attributes: ["uri"]
+        },
+        {
+          model: Facilities,
+          attributes: ["name", "status"]
+        }
+      ]
+    });
     if (!house) {
       res.send({
         status: true,
@@ -37,44 +140,6 @@ exports.show = async (req, res) => {
       status: true,
       message: "success fetch house",
       data: house
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-exports.store = async (req, res) => {
-  try {
-    const house = await House.build(req.body);
-    const response = await house.save();
-
-    res.send({
-      status: true,
-      message: "success store house",
-      data: response
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-exports.update = async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    const house = await House.update(req.body, { where: { id } });
-    if (house) {
-      const response = await House.findOne({ where: { id } });
-      res.send({
-        status: true,
-        message: "success update house",
-        data: response
-      });
-    }
-
-    res.send({
-      status: true,
-      message: "cannot update house"
     });
   } catch (err) {
     console.log(err);
