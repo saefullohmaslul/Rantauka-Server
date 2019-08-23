@@ -6,6 +6,14 @@ const Facilities = require("../models").facilities;
 exports.index = async (req, res, next) => {
   try {
     const houses = await House.findAll({
+      attributes: [
+        "id",
+        "house_name",
+        "kecamatan",
+        "house_price",
+        "booking",
+        "house_type"
+      ],
       include: [
         {
           model: Image,

@@ -61,7 +61,7 @@ exports.login = async (req, res, next) => {
         userId: user.id
       },
       "Ast3p0L3nT4y!0r@ncYpT7fV8qPr0c$",
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
 
     res.send({
