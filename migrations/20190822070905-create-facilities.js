@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('facilities', {
+    return queryInterface.createTable("facilities", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,8 +14,18 @@ module.exports = {
       status: {
         type: Sequelize.BOOLEAN
       },
+      code: {
+        type: Sequelize.STRING
+      },
       houseId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "houses",
+          key: "id"
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade"
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +38,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('facilities');
+    return queryInterface.dropTable("facilities");
   }
 };

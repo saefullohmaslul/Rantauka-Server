@@ -92,6 +92,7 @@ exports.store = async (req, res) => {
         Facilities.create({
           name: fasilitas.nama,
           status: fasilitas.status,
+          code: fasilitas.code,
           houseId
         });
       });
@@ -132,7 +133,7 @@ exports.show = async (req, res) => {
         },
         {
           model: Facilities,
-          attributes: ["name", "status"]
+          attributes: ["name", "status", "code"]
         }
       ]
     });
