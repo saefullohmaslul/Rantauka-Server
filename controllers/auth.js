@@ -13,6 +13,13 @@ exports.signup = async (req, res, next) => {
       throw error;
     }
 
+    const hasUser = await User.findOne({ where: { email } });
+    if (hasUser) {
+      const error = new Error("user with that email already exists");
+      error.statusCode = 401;
+      throw error;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await User.create({
       email,
