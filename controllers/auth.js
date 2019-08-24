@@ -1,21 +1,23 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 
 const User = require("../models").user;
 
 exports.signup = async (req, res, next) => {
+  const errors = validationResult(req);
+
   const { password, fullName, confirmPassword, email, telephone } = req.body;
 
   try {
-    if (confirmPassword !== password) {
-      const error = new Error("Please fill the same password");
-      error.statusCode = 401;
+    if (!errors.isEmpty()) {
+      const error = new Error("Validation failed");
+      error.statusCode = 422;
+      error.data = errors.array()[0].msg;
       throw error;
     }
-
-    const hasUser = await User.findOne({ where: { email } });
-    if (hasUser) {
-      const error = new Error("user with that email already exists");
+    if (confirmPassword !== password) {
+      const error = new Error("Please fill the same password");
       error.statusCode = 401;
       throw error;
     }
