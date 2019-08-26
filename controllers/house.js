@@ -28,11 +28,7 @@ exports.index = async (req, res, next) => {
       throw error;
     }
 
-    res.send({
-      status: true,
-      message: "success fetch houses",
-      data: houses
-    });
+    res.send(houses);
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

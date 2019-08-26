@@ -6,19 +6,13 @@ const User = require("../models").user;
 
 exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
-
-  const { password, fullName, confirmPassword, email, telephone } = req.body;
+  const { password, fullName, email, telephone } = req.body;
 
   try {
     if (!errors.isEmpty()) {
       const error = new Error("Validation failed");
       error.statusCode = 422;
       error.data = errors.array()[0].msg;
-      throw error;
-    }
-    if (confirmPassword !== password) {
-      const error = new Error("Please fill the same password");
-      error.statusCode = 401;
       throw error;
     }
 
@@ -30,10 +24,18 @@ exports.signup = async (req, res, next) => {
       full_name: fullName
     });
 
-    res.send({
-      status: true,
-      message: "success register user",
-      data: {
+    const token = jwt.sign(
+      {
+        email: user.email,
+        userId: user.id
+      },
+      "Ast3p0L3nT4y!0r@ncYpT7fV8qPr0c$",
+      { expiresIn: "24h" }
+    );
+
+    res.status(201).send({
+      token,
+      user: {
         fullName: user.full_name,
         email: user.email,
         telephone: user.telephone
@@ -48,18 +50,22 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
+  const errors = validationResult(req);
   const { email, password } = req.body;
+
   try {
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      const error = new Error("User with this email not be found");
-      error.statusCode = 401;
+    if (!errors.isEmpty()) {
+      const error = new Error("Validation failed");
+      error.statusCode = 422;
+      error.data = errors.array()[0].msg;
       throw error;
     }
 
+    const user = await User.findOne({ where: { email } });
     const isEqualPassword = await bcrypt.compare(password, user.password);
     if (!isEqualPassword) {
-      const error = new Error("Wrong password");
+      const error = new Error("Validation failed");
+      error.data = "Wrong password";
       error.statusCode = 401;
       throw error;
     }
@@ -75,7 +81,7 @@ exports.login = async (req, res, next) => {
 
     res.send({
       token,
-      userId: user.id
+      user
     });
   } catch (err) {
     if (!err.statusCode) {
