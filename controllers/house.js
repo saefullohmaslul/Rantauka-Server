@@ -11,7 +11,7 @@ exports.index = async (req, res, next) => {
         "house_name",
         "kecamatan",
         "house_price",
-        "booking",
+        "booking_status",
         "house_type"
       ],
       include: [
@@ -50,7 +50,7 @@ exports.store = async (req, res) => {
     house_width,
     house_description,
     house_price,
-    bookings,
+    booking_status,
     facilities
   } = req.body;
 
@@ -69,7 +69,7 @@ exports.store = async (req, res) => {
       house_width,
       house_description,
       house_price,
-      bookings,
+      booking_status,
       userId: req.userId
     });
 

@@ -41,7 +41,7 @@ module.exports = {
       house_price: {
         type: Sequelize.INTEGER
       },
-      booking: {
+      booking_status: {
         type: Sequelize.BOOLEAN
       },
       userId: {
