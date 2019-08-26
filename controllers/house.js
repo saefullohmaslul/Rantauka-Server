@@ -50,7 +50,7 @@ exports.store = async (req, res) => {
     house_width,
     house_description,
     house_price,
-    booking,
+    bookings,
     facilities
   } = req.body;
 
@@ -69,7 +69,7 @@ exports.store = async (req, res) => {
       house_width,
       house_description,
       house_price,
-      booking,
+      bookings,
       userId: req.userId
     });
 
