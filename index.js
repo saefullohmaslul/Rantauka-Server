@@ -7,6 +7,7 @@ require("express-group-routes");
 const multer = require("./middlewares/multer");
 const authRoutes = require("./routes/authRoutes");
 const houseRoutes = require("./routes/houseRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 const ErrorController = require("./controllers/error");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(authRoutes);
 app.use(houseRoutes);
+app.use(bookingRoutes);
 app.use(ErrorController);
 
 app.listen(PORT, err => {
