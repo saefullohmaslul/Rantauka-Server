@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       house_width: DataTypes.FLOAT,
       house_description: DataTypes.TEXT,
       house_price: DataTypes.INTEGER,
-      bookings: DataTypes.BOOLEAN,
+      booking_status: DataTypes.BOOLEAN,
       userId: DataTypes.INTEGER
     },
     {}
@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     house.hasMany(models.image),
       house.belongsTo(models.user),
-      house.belongsTo(models.booking),
       house.hasMany(models.facilities);
   };
   return house;
