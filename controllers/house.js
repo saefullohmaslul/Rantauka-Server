@@ -50,7 +50,7 @@ exports.store = async (req, res) => {
     house_width,
     house_description,
     house_price,
-    booking_status,
+    bookingStatus,
     facilities
   } = req.body;
 
@@ -69,7 +69,7 @@ exports.store = async (req, res) => {
       house_width,
       house_description,
       house_price,
-      booking_status,
+      booking_status: bookingStatus,
       userId: req.userId
     });
 
@@ -133,19 +133,14 @@ exports.show = async (req, res) => {
         }
       ]
     });
+
     if (!house) {
-      res.send({
-        status: true,
-        message: "house not found",
-        data: null
-      });
+      const error = new Error("House not found");
+      error.statusCode = 401;
+      throw error;
     }
 
-    res.send({
-      status: true,
-      message: "success fetch house",
-      data: house
-    });
+    res.status(200).send(house);
   } catch (err) {
     console.log(err);
   }

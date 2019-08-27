@@ -90,3 +90,27 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.show = async (req, res, next) => {
+  const id = req.userId;
+  try {
+    const user = await User.findOne({
+      where: { id },
+      attributes: ["full_name", "telephone"]
+    });
+
+    if (!user) {
+      const error = new Error("Get user failed");
+      error.data = "User not found";
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.status(200).send(user);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};

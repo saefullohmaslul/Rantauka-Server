@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     house.hasMany(models.image),
       house.belongsTo(models.user),
-      house.belongsTo(models.booking),
       house.hasMany(models.facilities);
   };
   return house;
