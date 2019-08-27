@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 app.use(multer);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use("/app/images", express.static(path.join(__dirname, "images")));
+app.use("/app/images", express.static(path.join(__dirname, "app", "images")));
 
 app.use(authRoutes);
 app.use(houseRoutes);
