@@ -10,11 +10,13 @@ Rantauka is a useful application for finding the right lodging at an affordable 
 
 ## Screenshots
 
+<p float="left">
 <img src="https://res.cloudinary.com/hobikoding/image/upload/v1566956680/rantauka/photo_2019-08-28_08-42-38.jpg" width="200" height="350" alt="Rantauka Home"/>
 <img src="https://res.cloudinary.com/hobikoding/image/upload/v1566956680/rantauka/photo_2019-08-28_08-42-23.jpg" width="200" height="350" alt="Rantauka Profile"/>
 <img src="https://res.cloudinary.com/hobikoding/image/upload/v1566956680/rantauka/photo_2019-08-28_08-42-34.jpg" width="200" height="350" alt="Rantauka Iklan"/>
 <img src="https://res.cloudinary.com/hobikoding/image/upload/v1566956681/rantauka/photo_2019-08-28_08-42-31.jpg" width="200" height="350" alt="Rantauka List Kos"/>
 <img src="https://res.cloudinary.com/hobikoding/image/upload/v1566956680/rantauka/photo_2019-08-28_08-42-27.jpg" width="200" height="350" alt="Rantauka Detail Kos"/>
+</p>
 
 ## Features
 
