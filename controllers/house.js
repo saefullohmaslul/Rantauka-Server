@@ -96,8 +96,9 @@ exports.store = async (req, res) => {
 
     if (images) {
       images.map(image => {
+        console.log(image);
         Image.create({
-          uri: image.path,
+          uri: `img/${image.filename}`,
           houseId
         });
       });
