@@ -39,11 +39,5 @@ exports.signup = [
     .isLength({ min: 8 })
     .withMessage("must be at least 8 chars long")
     .matches(/\d/)
-    .withMessage("must contain a number"),
-  body("confirmPassword").custom((value, { req }) => {
-    if (value !== req.body.password) {
-      throw new Error("Password confirmation does not match password");
-    }
-    return true;
-  })
+    .withMessage("must contain a number")
 ];
