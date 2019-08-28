@@ -7,7 +7,9 @@ exports.login = [
     .isEmail()
     .withMessage("Please enter a valid email")
     .custom(async (value, { req }) => {
-      const user = await User.findOne({ where: { email: value } });
+      const user = await User.findOne({
+        where: { email: value.toLowerCase() }
+      });
       if (!user) {
         return Promise.reject("User with this email not be found");
       }
@@ -23,7 +25,9 @@ exports.signup = [
     .isEmail()
     .withMessage("Please enter a valid email")
     .custom(async (value, { req }) => {
-      const user = await User.findOne({ where: { email: value } });
+      const user = await User.findOne({
+        where: { email: value.toLowerCase() }
+      });
       if (user) {
         return Promise.reject("Email address alredy exist!");
       }
