@@ -118,7 +118,10 @@ exports.show = async (req, res, next) => {
 exports.getToken = async (req, res, next) => {
   const id = req.userId;
   try {
-    const user = await User.findOne({ where: { id }, attributes: ["email"] });
+    const user = await User.findOne({
+      where: { id },
+      attributes: ["email", "id"]
+    });
 
     if (!user) {
       const error = new Error("Get user failed");
