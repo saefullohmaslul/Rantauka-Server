@@ -39,4 +39,13 @@ exports.store = async (req, res) => {
   }
 };
 
-
+exports.delete = (req, res) => {
+Wishlist.destroy({where: 
+  {id: req.params.id }})
+  .then(wishlist=> {
+  res.send({
+      message: "success",
+      wishlist
+  })
+})
+}
