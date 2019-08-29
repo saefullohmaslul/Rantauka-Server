@@ -69,7 +69,7 @@ exports.store = async (req, res) => {
       house_width,
       house_description,
       house_price,
-      booking_status: bookingStatus,
+      booking_status: 1,
       userId: req.userId
     });
 

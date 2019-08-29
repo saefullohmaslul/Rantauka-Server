@@ -30,7 +30,7 @@ exports.signup = async (req, res, next) => {
         userId: user.id
       },
       "Ast3p0L3nT4y!0r@ncYpT7fV8qPr0c$",
-      { expiresIn: "24h" }
+      { expiresIn: "168h" }
     );
 
     res.status(201).send({
@@ -76,7 +76,7 @@ exports.login = async (req, res, next) => {
         userId: user.id
       },
       "Ast3p0L3nT4y!0r@ncYpT7fV8qPr0c$",
-      { expiresIn: "24h" }
+      { expiresIn: "168h" }
     );
 
     res.send({
@@ -107,6 +107,39 @@ exports.show = async (req, res, next) => {
     }
 
     res.status(200).send(user);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.getToken = async (req, res, next) => {
+  const id = req.userId;
+  try {
+    const user = await User.findOne({ where: { id }, attributes: ["email"] });
+
+    if (!user) {
+      const error = new Error("Get user failed");
+      error.data = "User not found";
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const token = jwt.sign(
+      {
+        email: user.email,
+        userId: user.id
+      },
+      "Ast3p0L3nT4y!0r@ncYpT7fV8qPr0c$",
+      { expiresIn: "168h" }
+    );
+
+    res.send({
+      token,
+      user
+    });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
