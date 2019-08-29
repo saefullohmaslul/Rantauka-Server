@@ -8,6 +8,7 @@ const multer = require("multer");
 const authRoutes = require("./routes/authRoutes");
 const houseRoutes = require("./routes/houseRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes");
 const ErrorController = require("./controllers/error");
 
 const app = express();
@@ -46,6 +47,7 @@ app.use(
 app.use(authRoutes);
 app.use(houseRoutes);
 app.use(bookingRoutes);
+app.use(wishlistRoutes);
 app.use(ErrorController);
 
 app.listen(PORT, err => {
